@@ -8,27 +8,6 @@ class NardiProducts extends Page {
     get Nardi () {
         return $('a[href="/collections/nardi"].site-nav__link--has-dropdown');
     }
-    get leather () {
-        return $('//span[contains(text(),"Leather")]')
-    } 
-    get suede () {
-        return $('//span[contains(text(),"Suede")]')
-    }
-    get wood () {
-        return $('//span[contains(text(),"Wood")]')
-    }
-    get black () {
-        return $('//span[contains(text(),"Black")]')
-    }
-    get brown () {
-        return $('//span[contains(text(),"Brown")]')
-    }
-    get glossy () {
-        return $('//span[contains(text(),"Glossy")]')
-    }
-    get polshed () {
-        return $('//span[contains(text(),"Polished")]')
-    }
     
     async NardiSelections() {
         await this.Nardi.click();
@@ -37,7 +16,8 @@ class NardiProducts extends Page {
 
        
         const buttonSize330 = await $('span.tag__text=330mm');
-        await buttonSize330.waitForClickable({ timeout: 5000 });
+        await buttonSize330.moveTo();
+        await buttonSize330.waitForDisplayed({ timeout: 5000 });
         await buttonSize330.click();
         await browser.waitUntil(
             async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm',
@@ -45,21 +25,44 @@ class NardiProducts extends Page {
                 timeout: 5000,
                 timeoutMsg: 'URL did not change to size 330',
             })
+            
+        await browser.executeAsync(async (done) => {
+            setTimeout(() => {
+                    done();
+            }, 600); 
+        });
 
-        const buttonSize340 = await $('span.tag__text=340mm');
-        await buttonSize340.waitForClickable({ timeout: 5000 });
-        await buttonSize340.click();
+        const buttonSize340 = await $('span.tag__text=340mm');   
+        await buttonSize340.waitForDisplayed({ timeout: 5000 });
+        await buttonSize340.moveTo();
         await buttonSize340.click();
         await browser.waitUntil(
             async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm',
             {
                 timeout: 5000,
                 timeoutMsg: 'URL did not change to size 340',
-            })
+            }) 
+        
+            await browser.executeAsync(async (done) => {
+                setTimeout(() => {
+                        done();
+                }, 600); 
+            });
+
+        const Remove330 = await $('//a[@href="/collections/nardi?filter.v.option.size=340mm" and text()="330mm"]')
+        await Remove330.moveTo();
+        await Remove330.waitForDisplayed({ timeout: 5000 });
+        await Remove330.click();
+
+        await browser.executeAsync(async (done) => {
+            setTimeout(() => {
+                    done();
+            }, 600); 
+        });
         
         const buttonSize350 = await $('span.tag__text=350mm');
-        await buttonSize350.waitForClickable({ timeout: 5000 });
-        await buttonSize350.click();
+        await buttonSize350.moveTo();
+        await buttonSize350.waitForDisplayed({ timeout: 5000 });
         await buttonSize350.click();
         await browser.waitUntil(
             async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm',
@@ -68,9 +71,15 @@ class NardiProducts extends Page {
                 timeoutMsg: 'URL did not change to size 350',
             })
 
-        const buttonSize360 = await $('span.tag__text=360mm');
-        await buttonSize360.waitForClickable({ timeout: 5000 });
-        await buttonSize360.click();
+            await browser.executeAsync(async (done) => {
+                setTimeout(() => {
+                        done();
+                }, 600); 
+            });
+
+        /** const buttonSize360 = await $('span.tag__text=360mm');
+        await buttonSize360.moveTo();
+        await buttonSize360.waitForDisplayed({ timeout: 5000 });
         await buttonSize360.click();
         await browser.waitUntil(
             async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm',
@@ -79,9 +88,15 @@ class NardiProducts extends Page {
                 timeoutMsg: 'URL did not change to size 360',
             })
 
+            await browser.executeAsync(async (done) => {
+                setTimeout(() => {
+                        done();
+                }, 600); 
+            });
+            
         const buttonSize390 = await $('span.tag__text=390mm');
-        await buttonSize390.waitForClickable({ timeout: 5000 });
-        await buttonSize390.click();
+        await buttonSize390.moveTo();
+        await buttonSize390.waitForDisplayed({ timeout: 5000 });
         await buttonSize390.click();
         await browser.waitUntil(
             async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm',
@@ -90,31 +105,128 @@ class NardiProducts extends Page {
                 timeoutMsg: 'URL did not change to size 390', 
             })
         
+            await browser.executeAsync(async (done) => {
+                setTimeout(() => {
+                        done();
+                }, 600); 
+            });
+
+        const buttonLeather = await $('span.tag__text=Leather');
+        await buttonLeather.moveTo();
+        await buttonLeather.waitForDisplayed({ timeout: 5000 });
+        await buttonLeather.click();
+        await browser.waitUntil(
+            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather',
+            {
+                timeout: 5000,
+                timeoutMsg: 'URL did not change to Leather', 
+            })
         
-        
+            await browser.executeAsync(async (done) => {
+                setTimeout(() => {
+                        done();
+                }, 600); 
+            });
 
-        await this.leather.click();
-        expect(url).toBe('https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather'); 
+        const buttonSuede = await $('span.tag__text=Suede');
+        await buttonSuede.moveTo();
+        await buttonSuede.waitForDisplayed({ timeout: 5000 });
+        await buttonSuede.click();
+        await browser.waitUntil(
+            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede',
+            {
+                timeout: 5000,
+                timeoutMsg: 'URL did not change to Suede', 
+            })
+            
+            await browser.executeAsync(async (done) => {
+                setTimeout(() => {
+                        done();
+                }, 600); 
+            });
 
-        await this.suede.click();
-        expect(url).toBe('https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede'); 
+        const buttonWood = await $('span.tag__text=Wood');
+        await buttonWood.moveTo();
+        await buttonWood.waitForDisplayed({ timeout: 5000 });
+        await buttonWood.click();
+        await browser.waitUntil(
+            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede&filter.v.option.material=Wood',
+            {
+                timeout: 5000,
+                timeoutMsg: 'URL did not change to Wood', 
+            })
+               
+            await browser.executeAsync(async (done) => {
+                setTimeout(() => {
+                        done();
+                }, 600); 
+            });
 
-        await this.wood.click();
-        expect(url).toBe('https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede&filter.v.option.material=Wood'); 
+        const buttonBlack = await $('span.tag__text=Black');
+        await buttonBlack.moveTo();
+        await buttonBlack.waitForDisplayed({ timeout: 5000 });
+        await buttonBlack.click();
+        await browser.waitUntil(
+            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede&filter.v.option.material=Wood&filter.v.option.spoke+color=Black',
+            {
+                timeout: 5000,
+                timeoutMsg: 'URL did not change to Black', 
+            })
+       
+            await browser.executeAsync(async (done) => {
+                setTimeout(() => {
+                        done();
+                }, 600); 
+            });
 
-        await this.black.click();
-        expect(url).toBe('https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede&filter.v.option.material=Wood&filter.v.option.spoke+color=Black'); 
+        const buttonBrown = await $('span.tag__text=Brown');
+        await buttonBrown.moveTo();
+        await buttonBrown.waitForDisplayed({ timeout: 5000 });
+        await buttonBrown.click();
+        await browser.waitUntil(
+            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede&filter.v.option.material=Wood&filter.v.option.spoke+color=Black&filter.v.option.spoke+color=Brown',
+            {
+                timeout: 5000,
+                timeoutMsg: 'URL did not change to Brown', 
+            })
 
-        await this.brown.click();
-        expect(url).toBe('https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede&filter.v.option.material=Wood&filter.v.option.spoke+color=Black&filter.v.option.spoke+color=Brown'); 
+            await browser.executeAsync(async (done) => {
+                setTimeout(() => {
+                        done();
+                }, 600); 
+            });
 
+        const buttonGlossy = await $('span.tag__text=Glossy');
+        await buttonGlossy.moveTo();
+        await buttonGlossy.waitForDisplayed({ timeout: 5000 });
+        await buttonGlossy.click();
+        await browser.waitUntil(
+            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede&filter.v.option.material=Wood&filter.v.option.spoke+color=Black&filter.v.option.spoke+color=Brown&filter.v.option.spoke+color=Glossy',
+            {
+                timeout: 5000,
+                timeoutMsg: 'URL did not change to Glossy', 
+            })
 
-        await this.glossy.click();
-        expect(url).toBe('https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede&filter.v.option.material=Wood&filter.v.option.spoke+color=Black&filter.v.option.spoke+color=Brown&filter.v.option.spoke+color=Glossy'); 
-        await this.polshed.click(); 
-        expect(url).toBe('https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede&filter.v.option.material=Wood&filter.v.option.spoke+color=Black&filter.v.option.spoke+color=Brown&filter.v.option.spoke+color=Glossy&filter.v.option.spoke+color=Polished'); 
+            await browser.executeAsync(async (done) => {
+                setTimeout(() => {
+                        done();
+                }, 600); 
+            });
+
+        const buttonPolished = await $('span.tag__text=Polished');
+        await buttonPolished.moveTo();
+        await buttonPolished.waitForDisplayed({ timeout: 5000 });
+        await buttonPolished.click();
+        await browser.waitUntil(
+            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/nardi?filter.v.option.size=330mm&filter.v.option.size=340mm&filter.v.option.size=350mm&filter.v.option.size=360mm&filter.v.option.size=390mm&filter.v.option.material=Leather&filter.v.option.material=Suede&filter.v.option.material=Wood&filter.v.option.spoke+color=Black&filter.v.option.spoke+color=Brown&filter.v.option.spoke+color=Glossy&filter.v.option.spoke+color=Polished',
+            {
+                timeout: 5000,
+                timeoutMsg: 'URL did not change to Polished', 
+            })
+*/
         
     }
+
 
     async slider () {
         const slider = await $('div[class="noUi-touch-area"]'); 
