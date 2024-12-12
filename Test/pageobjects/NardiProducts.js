@@ -49,17 +49,6 @@ class NardiProducts extends Page {
                 }, 600); 
             });
 
-        const Remove330 = await $('//a[@href="/collections/nardi?filter.v.option.size=340mm" and text()="330mm"]')
-        await Remove330.moveTo();
-        await Remove330.waitForDisplayed({ timeout: 5000 });
-        await Remove330.click();
-
-        await browser.executeAsync(async (done) => {
-            setTimeout(() => {
-                    done();
-            }, 600); 
-        });
-        
         const buttonSize350 = await $('span.tag__text=350mm');
         await buttonSize350.moveTo();
         await buttonSize350.waitForDisplayed({ timeout: 5000 });
@@ -77,7 +66,7 @@ class NardiProducts extends Page {
                 }, 600); 
             });
 
-        /** const buttonSize360 = await $('span.tag__text=360mm');
+        const buttonSize360 = await $('span.tag__text=360mm');
         await buttonSize360.moveTo();
         await buttonSize360.waitForDisplayed({ timeout: 5000 });
         await buttonSize360.click();
@@ -223,45 +212,49 @@ class NardiProducts extends Page {
                 timeout: 5000,
                 timeoutMsg: 'URL did not change to Polished', 
             })
-*/
-        
     }
+    
 
 
     async slider () {
-        const slider = await $('div[class="noUi-touch-area"]'); 
+        const slider = await $('//div[@class="noUi-touch-area"]'); 
         const xOffset = 50; 
 
     await browser.performActions([
         {
-            type: 'pointer',
-            id: 'mouse1',
-            parameters: { pointerType: 'mouse' },
-            actions: [
-                { type: 'pointerMove', origin: slider, x: 0, y: 0 },
-                { type: 'pointerDown', button: 0 },
-                { type: 'pointerMove', origin: 'pointer', x: xOffset, y: -25 },
-                { type: 'pointerUp', button: 0 },
-        ],
-    },
-]);
+                type: 'pointer',
+                id: 'mouse1',
+                parameters: { pointerType: 'mouse' },
+                actions: [
+                    { type: 'pointerMove', origin: slider, x: 0, y: 0 },
+                    { type: 'pointerDown', button: 0 },
+                    { type: 'pointerMove', origin: 'pointer', x: xOffset, y: -10 },
+                    { type: 'pointerUp', button: 0 },
+                ]
+            }
+        ]);
 
+        const sliderValue = await slider.getValue();
+        console.log(`Slider value: ${sliderValue}`);
 
-    const sliderValue = await slider.getValue();
-    console.log(`Slider value: ${sliderValue}`);
+        const element = await $('span[class="price-range__display-min"]');
+        const text = await element.getText();
+        const numericValue = parseFloat(text.replace('$', ''));
+        expect(numericValue).toBeGreaterThanOrEqual(220.00);
 
-    const element = await $('span[class="price-range__display-min"]');
-    const text = await element.getText();
-    const numericValue = parseFloat(text.replace('$', ''));
-    expect(numericValue).toBeGreaterThanOrEqual(120.00);
-    }
+        await browser.executeAsync(async (done) => {
+            setTimeout(() => {
+                    done();
+            }, 1600); 
+        });
 
-
+        }
+    
 
 
     open () {
         return super.open();
-    }
+    };
 }
 
 export default new NardiProducts();
