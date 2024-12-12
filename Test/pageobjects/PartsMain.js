@@ -10,7 +10,7 @@ class Parts extends Page {
         return $('//a[@class="site-nav__link site-nav__link--underline"]')
     }
 
-    async PartsDropdown () {
+    async PartsOpen () {
         await this.PartsButton.click();
         const element = await $('//a[@class="site-nav__link site-nav__link--underline"]');
         await element.waitForExist({ timeout: 5000})
@@ -22,6 +22,10 @@ class Parts extends Page {
             }, 600); 
         });
 
+    }
+
+    
+    async PartsDropdown () {
         const Advan = await $('//a[@class="m-link" and contains(text(), "ADVAN")]');
         await Advan.waitForExist({ timeout: 5000});
         await Advan.waitForDisplayed({ timeout: 5000 });
@@ -316,5 +320,3 @@ class Parts extends Page {
     } 
 }
 export default new Parts();
-
-
