@@ -1,20 +1,11 @@
 import { browser } from '@wdio/globals'
 import { $ } from '@wdio/globals'
-import Brands from './PartsArray.js'
 
-export default class Page {
-  /**
-    * Opens a sub page of the page
-    * @param path path of the sub page (e.g. /path/to/page.html)
-    */  
-    open () {
+export default class Website {
+
+    JimmyO () {
         return browser.url(`https://shopjimmyo.com/`)
-    }
-    //constructor(BrandsOptions) {
-      //this.BrandsOptions = BrandsOptions;
-  //} 
-
-  
+    }  
   get HomeLogo () {
     return $('.site-header__logo-link.logo--has-inverted')
 }

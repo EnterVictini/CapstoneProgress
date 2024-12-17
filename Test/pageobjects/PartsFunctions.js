@@ -1,9 +1,8 @@
 import { $ } from '@wdio/globals'
-import Page from './page.js';
-import Selectors from './Selectors.js';
+import Website from './Website.js';
 
 
-class Functions extends Page  {
+class Functions extends Website  {
 
     async PartsOpen () {
         await this.PartsButton.click();
@@ -18,8 +17,8 @@ class Functions extends Page  {
         });
     }
     
-    open () {
-        return super.open();
+    JimmyO () {
+        return super.JimmyO();
     };
 }
 

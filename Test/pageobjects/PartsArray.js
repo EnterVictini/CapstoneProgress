@@ -1,63 +1,20 @@
 import { $ } from '@wdio/globals'
-import Page from './page.js';
+import Website from './Website.js';
 
-class Brands extends Page {
+class Brands extends Website {
     async PartsMains () {
         const BrandsOptions = [
-            "ADVAN", "RG4", "ACT",
-            "Acura/Honda", "Civic", "Integra",
-            "S2000", "RSX", "BMW", 
-            "E36", "M3", "Mazda",
-            "Miata", "RX7", "RX8",
-            "Nissan", "240SX", "300ZX",
-            "350Z", "Subaru", "BRZ",
-            
-            "ARP",
-
-            "ChaseBays",
-            
-            "Deatschwerks",
-            
-            "Enkei",
-
-            "Fifteen52",
-            
-            "Funk Motorsports",
-            
-            "Garrett",
-
-            "Gram Lights",
-            
-            "Greddy",
-            
-            "HKS",
-
-            "ISR Performance",
-            
-            "Kansei",
-            
-            "KILL ALL WIPERS",
-
-            "Koyo Radiators",
-            
-            "MOMO",
-            
-            "NRG",
-
-            "RB-Rebuilds",
-            
-            "Seems Legit Garage",
-            
-            "SPAL",
-            
-            "Sparco",
-            
-            "Turbosmart",
-            
-            "Vibrant",
+            "ADVAN", "ACT", "ARP",
+            "Chase Bays", "Deatschwerks", "Enkei",
+            "Fifteen52", "Funk Motorsport", "Garrett",
+            "Gram Lights", "Greddy", "HKS",
+            "ISR Performance", "Kansei", "KILL ALL WIPERS",
+            "Koyo Radiators", "MOMO", "NRG",
+            "RB-Rebuilds", "Seems Legit Garage", "SPAL",
+            "Sparco", "Turbosmart", "Vibrant",
         ];
 
-    return BrandsOptions; // Return the array
+    return BrandsOptions;
 }
 
 async BrandsFunction(number) {
@@ -65,7 +22,7 @@ async BrandsFunction(number) {
 }
 
 async processBrands() {
-    const brandsOptions = await this.PartsMains(); // Get the array from PartsMains()
+    const brandsOptions = await this.PartsMains();
     for (let brand of brandsOptions) {
         const element = await this.BrandsFunction(brand);
         if (await element.isExisting()) {
@@ -118,89 +75,27 @@ async processBrands() {
     }
 
     async Primary(number) {
-        return await $(`//a[@class="m-link"][contains(text(), "${number}")]`);
+        return await $(`//a[@class="m-tier-2"][contains(text(), "${number}")]`);
     }
     
     async processPrimary() {
-        const Primary = await this.ProductsPrimary(); // Get the array from PartsMains()
-        for (let brand of Primary) {
-            const element = await this.BrandsFunction(brand);
-            if (await element.isExisting()) {
-                console.log(`Element found for: ${brand}`);
-                await element.click();
+        const Primary = await this.Primary();
+        for (let item of Primary) {
+            const element2 = await this.Primary(item);
+            if (await element2.isExisting()) {
+                console.log(`Element found for: ${item}`);
+                await element2.click();
                 await this.PartsButton.click();
+                await element2.waitForDisplayed({timeout: 5000})
+                await element2.moveTo();  
             } else {
-                console.log(`Element not found for: ${brand}`);
+                console.log(`Element not found for: ${item}`);
             }
         }
     }
 
-    async PartsSecondary() {
-        const Secondary = [
-            "Civic", "Integra", "S2000",
-            "RSX", "E36", "M3",
-            "Miata", "RX7", "RX8",
-            "240SX", "300ZX", "350Z",
-            "BRZ", "Acura/Honda", "BMW",
-            "Chevrolet", "Ford", "Hyundai",
-            "Mazda", "MINI", "Mitsubishi",
-            "Nissan", "Subaru", "Toyota",
-            "Acura / Honda", "Fuel Injectors", "Fuel Pumps",
-            "17 Inch", "18 Inch", "15 Inch",
-            "16 Inch", "G Series", "GT Series",
-            "GTX Series", "GTX28", "G25 Super Cores",
-            "G25 Turbine Housings", "19 Inch", 
-            "EVOlution GT", "Revolution RS", "Vehicle Specific Intercooler Kits",
-            "Universal Intercooler Kits", "Hi-Power", "Hi-Power Silent",
-            "Super Turbo", "Circuit Exhausts", "GT Single Exhausts",
-            "OMS Spec Exhausts", "Racing Exhausts", "Series 1 EP Blast Pipes",
-            "Series 2 EP Blast Pipes", "Series 2 GT Blast Pipes", "ST Exhausts",
-            "MBSE Axle Back Exhausts", "Series II EP Axle Back", "Integra", 
-            "NSX", "RSX", "TSX",
-            "E36", "E46", "F80/82/83",
-            "SRT-4", "Focus", "IS300",
-            "IS250/IS350", "Mazda3/Speed3", "Miata",
-            "RX-7", "RX-8", "Lancer / EVO",
-            "240sx", "300zx", "350z", 
-            "370z", "BRZ", "Impreza/WRX/STI",
-            "4Runner", "Celica", "Corolla",
-            "Cressida", "GT86/FRS", "MR2",
-            "Supra", "Tacoma", "Tundra",
-            "Acura", "BMW", "Audi",
-            "Chevrolet", "Dodge", "Ford",
-            "Honda", "Hyundai", "Infiniti",
-            "Lexus", "Mazda", "Mercedes-Benz",
-            "MINI", "Mitsubishi", "Nissan",
-            "Subaru", "Toyota", "Volkswagen",
-            "Porsche", "Volvo", "Heritage Wheels",
-            "Racing Series", "Street Series", "M12 X 1.25",
-            "M12 X 1.5", "Acura Hubs", "Audi Hubs",
-            "BMW Hubs", "Ford Hubs", "Honda Hubs",
-            "Hyundai Hubs", "Infiniti Hubs", "Lexus Hubs",
-            "Mazda Hubs", "MINI Hubs", "Mitsubishi Hubs",
-            "Nissan Hubs", "Scion Hubs", "Subaru Hubs",
-            "Suzuki Hubs", "Toyota Hubs", "Volkswagen Hubs",
-            "2.0 Quick Releases", "2.1 Quick Releases", "2.5 Quick Releases",
-            "3.0 Quick Releases", "Prisma Collab Quick Releases", "Race Handle Quick Release",
-            "Leather", "Suede", "Wood", 
-            "PRISMA ULTRA", "Porsche Hubs", "VW Hubs",
-            "PRO ADV LF", "Circuit", "Circuit II",
-            "EVO", "Grid", "Pilot",
-            "Pro 2000", "QRT", "Sprint",
-            "Combination", "IGW75", "WG38",
-            "WG40", "WG45", "WG50",
-            "WG60", "Big Bubba", "Bubba Sonic",
-            "Dual Port", "Pro Port", "Power Port",
-            "Race Port", "Boost Gauges", "TS-1",
-            "TS-2", "Street Series", "TPV Seires",
-            "Ultra Quiet Series", "Stainless Series", "Mandrel Bends 15",
-            "Mandrel Bends 45", "Mandrel Bends 60", "Mandrel Bends 90", 
-            "Mandrel Bends 180", "Mandrel Bends UJ", "Straight Tubing",
-        ]
-    }
-
-    open () {
-        return super.open();
+    JimmyO () {
+        return super.JimmyO();
     } 
 }
 export default new Brands();

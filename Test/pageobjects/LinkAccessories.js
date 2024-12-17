@@ -1,117 +1,59 @@
-import { $ } from '@wdio/globals'
-import Page from './page.js';
+import { $ } from '@wdio/globals';
+import Website from './Website.js';
 
-class LinkAccessories extends Page {
-    get HomeLogo () {
-        return $('.site-header__logo-link.logo--has-inverted')
+class LinkAccessories extends Website {
+    get HomeLogo() {
+        return $('.site-header__logo-link.logo--has-inverted');
     }
-    get Link () {
+
+    get Link() {
         return $('a[href="/collections/link-accessories"].site-nav__link--has-dropdown');
     }
 
     async LinkDropDown() {
         await this.Link.click();
-        const url = await browser.getUrl(); 
-        expect(url).toBe('https://shopjimmyo.com/collections/link-accessories'); 
 
-       
-        const SortDropdown = await $('//select[@name="SortBy"]');
-        await SortDropdown.moveTo();
-        await SortDropdown.waitForDisplayed({ timeout: 5000 });
-        await SortDropdown.click();
-        
-        const SortFeatured = await $('//option[@value="manual" and contains(text(), "Featured")]');
-        await SortFeatured.moveTo();
-        await SortFeatured.waitForDisplayed({ timeout: 5000 });
-        await SortFeatured.click();
-        await browser.waitUntil(
-            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/link-accessories?sort_by=manual',
-            {
-                timeout: 500,
-                timeoutMsg: 'URL did not change to Manual',
-            });
+        const url = await browser.getUrl();
+        expect(url).toBe('https://shopjimmyo.com/collections/link-accessories');
 
-        const SortBestSelling = await $('//option[@value="best-selling" and contains(text(), "Best selling")]');
-        await SortBestSelling.moveTo();
-        await SortBestSelling.waitForDisplayed({ timeout: 5000 });
-        await SortBestSelling.click();
-        await browser.waitUntil(
-            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/link-accessories?sort_by=best-selling',
-            {
-                timeout: 500,
-                timeoutMsg: 'URL did not change to Best selling',
-            });
+        const sortOptions = [
+            { name: 'Featured', value: 'manual', expectedUrl: 'https://shopjimmyo.com/collections/link-accessories?sort_by=manual' },
+            { name: 'Best selling', value: 'best-selling', expectedUrl: 'https://shopjimmyo.com/collections/link-accessories?sort_by=best-selling' },
+            { name: 'Alphabetically, A-Z', value: 'title-ascending', expectedUrl: 'https://shopjimmyo.com/collections/link-accessories?sort_by=title-ascending' },
+            { name: 'Alphabetically, Z-A', value: 'title-descending', expectedUrl: 'https://shopjimmyo.com/collections/link-accessories?sort_by=title-descending' },
+            { name: 'Price, low to high', value: 'price-ascending', expectedUrl: 'https://shopjimmyo.com/collections/link-accessories?sort_by=price-ascending' },
+            { name: 'Price, high to low', value: 'price-descending', expectedUrl: 'https://shopjimmyo.com/collections/link-accessories?sort_by=price-descending' },
+            { name: 'Date, old to new', value: 'created-ascending', expectedUrl: 'https://shopjimmyo.com/collections/link-accessories?sort_by=created-ascending' },
+            { name: 'Date, new to old', value: 'created-descending', expectedUrl: 'https://shopjimmyo.com/collections/link-accessories?sort_by=created-descending' }
+        ];
 
-        const SortAtoZ = await $('//option[@value="title-ascending" and contains(text(), "Alphabetically, A-Z")]');
-        await SortAtoZ.moveTo();
-        await SortAtoZ.waitForDisplayed({ timeout: 5000 });
-        await SortAtoZ.click();
-        await browser.waitUntil(
-            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/link-accessories?sort_by=title-ascending',
-            {
-                timeout: 500,
-                timeoutMsg: 'URL did not change to Title Ascending',
-            });
+        const sortDropdown = await $('//select[@name="SortBy"]');
+        await sortDropdown.waitForDisplayed({ timeout: 5000 });
+        await sortDropdown.click();
 
-        const SortZtoA = await $('//option[@value="title-descending" and contains(text(), "Alphabetically, Z-A")]');
-        await SortZtoA.moveTo();
-        await SortZtoA.waitForDisplayed({ timeout: 5000 });
-        await SortZtoA.click();
-        await browser.waitUntil(
-            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/link-accessories?sort_by=title-descending',
-            {
-                timeout: 500,
-                timeoutMsg: 'URL did not change to Title Descending',
-            });
+        for (const option of sortOptions) {
+            console.log(`Selecting sort option: ${option.name}`);
 
-        const SortPriceLowtoHigh = await $('//option[@value="price-ascending" and contains(text(), "Price, low to high")]');
-        await SortPriceLowtoHigh.moveTo();
-        await SortPriceLowtoHigh.waitForDisplayed({ timeout: 5000 });
-        await SortPriceLowtoHigh.click();
-        await browser.waitUntil(
-            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/link-accessories?sort_by=price-ascending',
-            {
-                timeout: 500,
-                timeoutMsg: 'URL did not change to Price Ascending',
-            });
+            const optionElement = await $(`//option[@value="${option.value}" and contains(text(), "${option.name}")]`);
+            await optionElement.waitForDisplayed({ timeout: 5000 });
+            await optionElement.click();
 
-        const SortPriceHightoLow = await $('//option[@value="price-descending" and contains(text(), "Price, high to low")]');
-        await SortPriceHightoLow.moveTo();
-        await SortPriceHightoLow.waitForDisplayed({ timeout: 5000 });
-        await SortPriceHightoLow.click();
-        await browser.waitUntil(
-            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/link-accessories?sort_by=price-descending',
-            {
-                timeout: 500,
-                timeoutMsg: 'URL did not change to Price Descending',
-            });
+            await browser.waitUntil(
+                async () => (await browser.getUrl()) === option.expectedUrl,
+                {
+                    timeout: 5000,
+                    timeoutMsg: `URL did not change for sort option: ${option.name}`
+                }
+            );
 
-        const SortDateOldtoNew = await $('//option[@value="created-ascending" and contains(text(), "Date, old to new")]');
-        await SortDateOldtoNew.moveTo();
-        await SortDateOldtoNew.waitForDisplayed({ timeout: 5000 });
-        await SortDateOldtoNew.click();
-        await browser.waitUntil(
-            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/link-accessories?sort_by=created-ascending',
-            {
-                timeout: 500,
-                timeoutMsg: 'URL did not change to Created Ascending',
-            });
-
-        const SortDateNewtoOld = await $('//option[@value="created-descending" and contains(text(), "Date, new to old")]');
-        await SortDateNewtoOld.moveTo();
-        await SortDateNewtoOld.waitForDisplayed({ timeout: 5000 });
-        await SortDateNewtoOld.click();
-        await browser.waitUntil(
-            async () => (await browser.getUrl()) === 'https://shopjimmyo.com/collections/link-accessories?sort_by=created-descending',
-            {
-                timeout: 500,
-                timeoutMsg: 'URL did not change to Created Descending',
-            });
-
+            console.log(`Successfully selected sort option: ${option.name}`);
+            await browser.pause(500); 
+        }
     }
-    open () {
-        return super.open();
-    };
+
+    JimmyO() {
+        return super.JimmyO();
+    }
 }
 
 export default new LinkAccessories();

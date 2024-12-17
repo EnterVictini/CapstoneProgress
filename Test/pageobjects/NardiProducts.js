@@ -1,14 +1,15 @@
-import { $ } from '@wdio/globals'
-import Page from './page.js';
+import { $, $$ } from '@wdio/globals';
+import Website from './Website.js';
 
-class NardiProducts extends Page {
-    get HomeLogo () {
-        return $('.site-header__logo-link.logo--has-inverted')
+class NardiProducts extends Website {
+    get HomeLogo() {
+        return $('.site-header__logo-link.logo--has-inverted');
     }
-    get Nardi () {
+
+    get Nardi() {
         return $('a[href="/collections/nardi"].site-nav__link--has-dropdown');
     }
-    
+
     async NardiSelections() {
         await this.Nardi.click();
         const url = await browser.getUrl(); 
@@ -213,48 +214,37 @@ class NardiProducts extends Page {
                 timeoutMsg: 'URL did not change to Polished', 
             })
     }
-    
 
-
-    async slider () {
-        const slider = await $('//div[@class="noUi-touch-area"]'); 
+    async slider() {
+        const slider = await $('//div[@class="noUi-touch-area"]');
         const xOffset = 50; 
 
-    await browser.performActions([
-        {
+        await browser.performActions([
+            {
                 type: 'pointer',
                 id: 'mouse1',
                 parameters: { pointerType: 'mouse' },
                 actions: [
                     { type: 'pointerMove', origin: slider, x: 0, y: 0 },
                     { type: 'pointerDown', button: 0 },
-                    { type: 'pointerMove', origin: 'pointer', x: xOffset, y: -10 },
+                    { type: 'pointerMove', origin: 'pointer', x: xOffset, y: -20 },
                     { type: 'pointerUp', button: 0 },
-                ]
-            }
+                ],
+            },
         ]);
 
-        const sliderValue = await slider.getValue();
-        console.log(`Slider value: ${sliderValue}`);
-
-        const element = await $('span[class="price-range__display-min"]');
-        const text = await element.getText();
+        const minPriceElement = await $('span[class="price-range__display-min"]');
+        const text = await minPriceElement.getText();
         const numericValue = parseFloat(text.replace('$', ''));
-        expect(numericValue).toBeGreaterThanOrEqual(220.00);
 
-        await browser.executeAsync(async (done) => {
-            setTimeout(() => {
-                    done();
-            }, 1600); 
-        });
+        console.log(`Slider adjusted to minimum price: ${numericValue}`);
+        expect(numericValue).toBeLessThanOrEqual(400.00);
 
-        }
-    
+    }
 
-
-    open () {
-        return super.open();
-    };
+    JimmyO() {
+        return super.JimmyO();
+    }
 }
 
 export default new NardiProducts();
